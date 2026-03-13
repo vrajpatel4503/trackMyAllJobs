@@ -44,7 +44,7 @@ const Register = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       showSuccessToast(res.data.message || "Account created successfully!");
@@ -55,7 +55,7 @@ const Register = () => {
     } catch (error) {
       showErrorToast(
         error.response?.data?.message ||
-          "Failed to create account. Please try again."
+          "Failed to create account. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -77,7 +77,7 @@ const Register = () => {
           }`}
         >
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
-             Create Account 🚀
+            Create Account 🚀
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -13,35 +13,38 @@ const app = express();
 
 app.use(compression());
 
+// Allowed frontend origins
 const allowedOrigins = [
-  process.env.FRONTEND_URL_LOCAL,
-  process.env.FRONTEND_URL_PRODUCTION,
-].filter(Boolean);
+  "http://localhost:5173",
+  "https://trackmyalljobs.vercel.app",
+];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  optionsSuccessStatus: 200,
-};
+// CORS configuration
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  })
+);
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// Handle preflight requests
+app.options("*", cors());
 
+// Body parsing
 app.use(express.json());
-
-app.use(cookieParser());
-
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie parser
+app.use(cookieParser());
 
 // -------- Routes declaration ---------
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/job", jobRoutes);
+
+// Default route
+app.get("/", (req, res) => {
+  res.send("TrackMyAllJobs API is running...");
+});
 
 export default app;
