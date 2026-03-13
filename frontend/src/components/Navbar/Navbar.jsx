@@ -177,7 +177,7 @@ const Navbar = () => {
             ) : (
               <>
                 <button
-                  onClick={() => handleNavigate("/dashboard/add/job")}
+                  onClick={() => handleNavigate("/dashboard/all/jobs")}
                   className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
                 >
                   All Jobs
