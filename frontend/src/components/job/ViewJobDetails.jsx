@@ -79,25 +79,25 @@ const ViewJobDetails = () => {
   const showJobLink = job.showJobLink;
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full px-4 sm:px-8 py-6">
       {/* Back Button */}
-      <div className="px-4 pt-6 mb-6 sm:px-8">
+      <div className="mb-6">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 border py-3 pr-4 pl-3 rounded-lg text-gray-700 hover:text-black font-semibold transition"
+          className="flex items-center gap-2 border px-3 py-2 rounded-lg text-gray-700 hover:text-black font-medium transition"
         >
-          <IoArrowBack className="text-xl" />
+          <IoArrowBack className="text-lg" />
           Back
         </button>
       </div>
 
       {/* Card */}
-      <div className="max-w-2xl mx-4 sm:mx-auto mt-1 mb-12 bg-white rounded-xl shadow-md shadow-blue-200 border p-3 sm:p-6  sm:px-10">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mt-4 mb-16">
+      <div className="max-w-xl mx-auto bg-white rounded-xl shadow-md shadow-blue-100 border p-5 sm:p-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-center text-gray-900 mb-8">
           Job Application Details
         </h1>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           {[
             ["Position Applied", job.positionApplied],
             ["Company Name", job.companyName],
@@ -113,11 +113,11 @@ const ViewJobDetails = () => {
           ].map(([label, value], index) => (
             <div
               key={index}
-              className="flex flex-col sm:flex-row sm:justify-between gap-2 border-b pb-4"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3"
             >
-              <span className="text-gray-600 font-bold">{label}</span>
+              <span className="text-gray-600 font-semibold">{label}</span>
 
-              <span className="text-gray-900 font-medium break-all sm:max-w-md text-right">
+              <span className="text-gray-900 font-medium wrap-break-words sm:max-w-sm">
                 {value || "--"}
               </span>
             </div>
@@ -125,48 +125,50 @@ const ViewJobDetails = () => {
 
           {/* Email Section */}
           {isEmailMethod && (
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-2 border-b pb-4">
-              <span className="text-gray-600 font-bold">HR Email</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3">
+              <span className="text-gray-600 font-semibold">HR Email</span>
 
               {job.hrEmail ? (
                 <a
-                  href={`mailto:${job.hrEmail?.trim()}`}
-                  className="text-gray-900 font-medium break-all sm:max-w-md text-right"
+                  href={`mailto:${job.hrEmail.trim()}`}
+                  className="text-blue-600 wrap-break-words sm:max-w-sm"
                 >
                   {job.hrEmail}
                 </a>
               ) : (
-                <span className="text-gray-900 font-medium text-right">--</span>
+                <span>--</span>
               )}
             </div>
           )}
 
-          {/* Job Link Section */}
+          {/* Job Link */}
           {showJobLink && (
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-2 border-b pb-4">
-              <span className="text-gray-600 font-bold">Job Link</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3">
+              <span className="text-gray-600 font-semibold">Job Link</span>
 
               {job.jobLink ? (
                 <a
                   href={job.jobLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline break-all sm:max-w-md text-right"
+                  className="text-blue-600 hover:underline wrap-break-words sm:max-w-sm"
                 >
                   View Job
                 </a>
               ) : (
-                <span className="text-gray-900 font-medium text-right">--</span>
+                <span>--</span>
               )}
             </div>
           )}
 
           {/* Status */}
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-            <span className="text-gray-600 font-bold">Application Status</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-gray-600 font-semibold">
+              Application Status
+            </span>
 
             <span
-              className={`self-end sm:self-auto px-3 py-1 rounded-full text-sm font-semibold ${
+              className={`mt-2 sm:mt-0 px-4 py-3 sm:py-2 sm:px-3 rounded-full text-sm font-semibold ${
                 statusCode[job.status] || "bg-gray-100 text-gray-700"
               }`}
             >
@@ -176,16 +178,16 @@ const ViewJobDetails = () => {
         </div>
 
         {/* Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <button
-            className="px-6 py-2.5 rounded-lg border border-blue-600 bg-blue-100 text-blue-600 hover:bg-blue-500 hover:text-white transition"
+            className="px-6 py-2 rounded-lg border border-blue-600 bg-blue-100 text-blue-600 hover:bg-blue-500 hover:text-white transition"
             onClick={() => navigate(`/dashboard/edit/job/${job._id}`)}
           >
             Edit Job
           </button>
 
           <button
-            className="px-6 py-2.5 rounded-lg border border-red-600 bg-red-100 text-red-600 hover:bg-red-500 hover:text-white transition"
+            className="px-6 py-2 rounded-lg border border-red-600 bg-red-100 text-red-600 hover:bg-red-500 hover:text-white transition"
             onClick={handleDeleteSubmit}
           >
             Delete Job

@@ -34,9 +34,7 @@ const UpdateUserAvatar = () => {
     setUserAvatar({ avatar: file });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (!userAvatar.avatar) {
       showErrorToast("Please select an avatar first");
       return;
@@ -54,17 +52,26 @@ const UpdateUserAvatar = () => {
         { withCredentials: true },
       );
 
-      dispatch(authActions.updateAvatar(res.data.user.avatar));
+      dispatch(authActions.updateAvatar(res.data?.avatar?.avatar?.url));
 
-      showSuccessToast(res.data.message);
+      showSuccessToast(res.data?.message || "Avatar updated successfully");
 
       setUserAvatar({ avatar: null });
 
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
+      console.log(error);
       showErrorToast(
         error.response?.data?.message || "Failed to update avatar",
       );
+
+      setUserAvatar({ avatar: null });
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } finally {
       setLoading(false);
     }
@@ -78,7 +85,9 @@ const UpdateUserAvatar = () => {
         </div>
       )}
 
-      <div className="flex flex-col items-center justify-center py-8 sm:py-10 px-4">
+      <div className="flex flex-col items-center text-center">
+        <h2 className="text-lg font-semibold mb-5">Update Profile Picture</h2>
+
         {/* Hidden file input */}
         <input
           type="file"
@@ -89,10 +98,10 @@ const UpdateUserAvatar = () => {
           className="hidden"
         />
 
-        {/* Avatar Upload */}
+        {/* Avatar */}
         <div
           onClick={() => fileInputRef.current.click()}
-          className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-gray-300 cursor-pointer flex items-center justify-center hover:border-blue-500 transition mx-auto"
+          className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-gray-300 cursor-pointer flex items-center justify-center hover:border-blue-500 transition"
         >
           {userAvatar.avatar ? (
             <img
@@ -101,22 +110,19 @@ const UpdateUserAvatar = () => {
               className="w-full h-full rounded-full object-cover"
             />
           ) : (
-            <span className="text-xs sm:text-sm text-gray-400 text-center">
-              Click to
-              <br />
-              upload
+            <span className="text-sm text-gray-400 text-center">
+              Click to upload
             </span>
           )}
         </div>
 
-        <p className="mt-4 text-center text-xs sm:text-sm text-gray-600">
-          <span className="font-semibold text-gray-800">Note:</span> Upload a
-          clear image under <span className="font-medium">200 KB</span>
+        <p className="mt-3 text-xs text-gray-500">
+          Upload image under <span className="font-medium">200KB</span>
         </p>
 
         <Button
-          onClick={handleSubmit}
-          className="mt-5 h-11 w-full sm:w-auto px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-lg hover:scale-105 active:scale-95 duration-200"
+          onClick={(e) => handleSubmit(e)}
+          className="mt-5 h-11 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Update Avatar
         </Button>

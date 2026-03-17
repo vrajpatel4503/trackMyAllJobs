@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Loader from "../../components/common/Loader.jsx";
 import { showErrorToast, showSuccessToast } from "../../utils/ToastUtils.jsx";
 import { useDispatch } from "react-redux";
@@ -21,16 +20,15 @@ const Login = () => {
     password: "",
   });
 
-  // ------ handle input change -------
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  // -------- handle submit ---------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -53,9 +51,9 @@ const Login = () => {
       dispatch(
         authActions.login({
           id: res.data.user._id,
-          role: res.data.user.role,
-          fullName: res.data.user.fullName,
-          avatar: res.data.user.avatar?.url || null,
+          role: res.data?.user?.role,
+          fullName: res.data?.user?.fullName,
+          avatar: res.data?.user?.avatar?.url || null,
         }),
       );
 
@@ -63,9 +61,7 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/dashboard");
-      }, 2000);
-
-      // try part end
+      }, 1500);
     } catch (error) {
       showErrorToast(error.response?.data?.message || "Login failed");
     } finally {
@@ -81,13 +77,14 @@ const Login = () => {
         </div>
       )}
 
-      <div className="flex justify-center items-center my-32 sm:my-24 px-4 py-10 sm:py-0 h-full">
+      
+      <div className="flex items-center justify-center w-full px-4 py-48 sm:py-16">
         <div
-          className={`w-full max-w-md rounded-2xl shadow-md p-6 sm:p-8 ${
+          className={`w-full max-w-md bg-white rounded-2xl shadow-lg shadow-blue-100 p-6 sm:p-8 ${
             loading ? "opacity-50 pointer-events-none" : ""
           }`}
         >
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Login
           </h2>
 
@@ -104,7 +101,7 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none "
                 required
               />
             </div>
@@ -120,19 +117,19 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none"
                 required
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full py-2.5 text-lg font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+              className="w-full py-2 text-lg font-semibold rounded-md bg-blue-200 text-white hover:bg-blue-700 transition"
             >
               Login
             </Button>
 
-            <p className="text-center text-md text-gray-600">
+            <p className="text-center text-sm text-gray-600">
               Don’t have an account?{" "}
               <Link to="/register" className="text-blue-600 hover:underline">
                 Create Account

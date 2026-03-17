@@ -26,7 +26,7 @@ const UpdateEmail = () => {
       const res = await axios.patch(
         `${API_URL}/api/v1/user/update/email`,
         { email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       showSuccessToast(res.data.message || "Email updated successfully");
@@ -46,26 +46,23 @@ const UpdateEmail = () => {
         </div>
       )}
 
-      <div className="mb-8 sm:mb-10">
-        <h2 className="text-base sm:text-lg font-semibold mb-3">
-          Update Email
-        </h2>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Update Email</h2>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="email"
-            name="email"
             value={email}
             onChange={handleChange}
             placeholder="Enter new email"
-            className="flex-1 h-11 sm:h-12 p-3 border rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 h-11 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <Button
             onClick={handleEmailSubmit}
-            className="h-11 sm:h-12 w-full sm:w-auto sm:min-w-40 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="h-11 px-6 sm:w-35 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
-            Update Email
+            Update
           </Button>
         </div>
       </div>

@@ -82,7 +82,7 @@ const AllJobsPage = () => {
 
               {/* Table Body */}
               <tbody className="divide-y">
-                {jobs.slice(0, 4).map((job) => (
+                {jobs.map((job) => (
                   <tr
                     key={job._id}
                     className="hover:bg-blue-50 transition duration-200"

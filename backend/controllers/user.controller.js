@@ -441,6 +441,21 @@ export const updateUserAvatarController = async (req, res) => {
       });
     }
 
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(req.file.mimetype)) {
+      return res.status(400).json({
+        success: false,
+        message: "Only JPG, PNG, WEBP images are allowed",
+      });
+    }
+
+    if (req.file.size > 200 * 1024) {
+      return res.status(400).json({
+        success: false,
+        message: "File size must be under 200KB",
+      });
+    }
+
     const user = await userModel.findById(id);
 
     if (!user) {
@@ -460,11 +475,8 @@ export const updateUserAvatarController = async (req, res) => {
       });
     }
 
-    // delete old avatar ONLY if it is NOT default
-    if (
-      user.avatar?.public_id &&
-      user.avatar.public_id !== process.env.DEFAULT_AVATAR_PUBLIC_ID
-    ) {
+    // delete old avatar
+    if (user.avatar?.public_id) {
       await cloudinary.uploader.destroy(user.avatar.public_id);
     }
 
@@ -479,7 +491,7 @@ export const updateUserAvatarController = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Avatar updated successfully.",
-      avatar: user.avatar,
+      avatar: user,
     });
 
     // try part end
@@ -496,8 +508,16 @@ export const updateUserAvatarController = async (req, res) => {
 export const deleteUserAccountController = async (req, res) => {
   try {
     const { id } = req.user;
+    const { password } = req.body;
 
-    const user = await userModel.findById(id);
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required",
+      });
+    }
+
+    const user = await userModel.findById(id).select("+password");
 
     if (!user) {
       return res.status(404).json({
@@ -506,9 +526,18 @@ export const deleteUserAccountController = async (req, res) => {
       });
     }
 
-    //  delete avatar only if NOT default
+    const isPasswordMatch = await bcryptjs.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
+
+    // Delete avatar if not default
     if (
-      user.avatar.public_id &&
+      user.avatar?.public_id &&
       user.avatar.public_id !== process.env.DEFAULT_AVATAR_PUBLIC_ID
     ) {
       await cloudinary.uploader.destroy(user.avatar.public_id);
@@ -516,16 +545,17 @@ export const deleteUserAccountController = async (req, res) => {
 
     await userModel.findByIdAndDelete(id);
 
+    res.clearCookie("token");
+
     return res.status(200).json({
       success: true,
       message: "Account deleted successfully",
     });
-
-    // try part end
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong on the server. Please try again later.",
+      message: "Something went wrong while deleting account. Please try later.",
     });
   }
 };

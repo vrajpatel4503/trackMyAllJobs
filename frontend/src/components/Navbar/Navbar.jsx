@@ -26,6 +26,8 @@ const Navbar = () => {
 
   const { isLoggedIn, fullName, avatar } = useSelector((state) => state.auth);
 
+  console.log("Redux Avatar:", avatar);
+
   const initials = getInitials(fullName);
 
   const handleNavigate = (path) => {
@@ -43,9 +45,16 @@ const Navbar = () => {
         />
       )}
 
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       <div className="bg-white shadow-md shadow-blue-100 relative z-50">
         {/* ================= DESKTOP NAVBAR ================= */}
-        <div className="hidden sm:flex items-center justify-between py-4 px-8">
+        <div className="hidden sm:flex items-center justify-between py-3 px-6">
           {/* Logo */}
           <h1
             onClick={() => navigate(isLoggedIn ? "/dashboard" : "/")}
@@ -59,14 +68,14 @@ const Navbar = () => {
             <div className="flex items-center gap-8">
               <button
                 onClick={() => navigate("/dashboard/all/jobs")}
-                className="font-medium text-xl text-gray-700 hover:text-blue-600"
+                className="font-medium text-lg text-gray-700 hover:text-blue-600"
               >
                 All Jobs
               </button>
 
               <button
                 onClick={() => navigate("/dashboard/add/job")}
-                className="font-medium text-xl text-gray-700 hover:text-blue-600"
+                className="font-medium text-lg text-gray-700 hover:text-blue-600"
               >
                 Add New Job
               </button>
@@ -94,16 +103,17 @@ const Navbar = () => {
             <div className="flex items-center gap-6 relative">
               {/* Notification */}
               <button className="p-2 disabled:cursor-not-allowed rounded-full bg-white border hover:bg-gray-100">
-                <FiBell size={20} />
+                <FiBell size={18} />
               </button>
 
               {/* Profile */}
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-3 pr-2 py-1 rounded-full hover:bg-gray-100 bg-gray-100"
+                  className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-all duration-200"
                 >
-                  <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center overflow-hidden">
+                  {/* Avatar */}
+                  <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center overflow-hidden text-sm font-semibold shadow-sm">
                     {avatar ? (
                       <img
                         src={avatar}
@@ -115,7 +125,13 @@ const Navbar = () => {
                     )}
                   </div>
 
-                  <span className="font-medium text-gray-700">{initials}</span>
+                  {/* Name / Initials */}
+                  <span className="text-sm font-medium text-gray-700 hidden sm:block">
+                    {initials}
+                  </span>
+
+                  {/* Dropdown icon */}
+                  <span className="text-gray-500 text-xs">▼</span>
                 </button>
 
                 {profileOpen && (

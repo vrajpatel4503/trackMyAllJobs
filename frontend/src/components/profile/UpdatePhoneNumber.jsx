@@ -26,18 +26,20 @@ const UpdatePhoneNumber = () => {
       const res = await axios.patch(
         `${API_URL}/api/v1/user/update/phoneNumber`,
         { phoneNumber },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       showSuccessToast(
-        res.data.message || "Phone number updated successfully!"
+        res.data.message || "Phone number updated successfully!",
       );
 
       setPhoneNumber("");
     } catch (error) {
       showErrorToast(
-        error.response?.data?.message || "Failed to update phone number"
+        error.response?.data?.message || "Failed to update phone number",
       );
+
+      setPhoneNumber("");
     } finally {
       setLoading(false);
     }
@@ -51,26 +53,23 @@ const UpdatePhoneNumber = () => {
         </div>
       )}
 
-      <div className="mb-8 sm:mb-10">
-        <h2 className="text-base sm:text-lg font-semibold mb-3">
-          Update Phone Number
-        </h2>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Update Phone Number</h2>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="tel"
-            name="phoneNumber"
             value={phoneNumber}
             onChange={handleChange}
             placeholder="Enter new phone number"
-            className="flex-1 h-11 sm:h-12 border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 h-11 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <Button
             onClick={handlePhoneNumberSubmit}
-            className="h-11 sm:h-12 w-full sm:w-auto sm:min-w-40 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="h-11 px-6 sm:w-35 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
-            Update Phone
+            Update
           </Button>
         </div>
       </div>

@@ -7,13 +7,13 @@ const Home = () => {
     <div className="w-full px-4 md:px-16 py-10 flex flex-col items-center">
       
       {/* Header */}
-      <p className="text-xl md:text-3xl font-bold text-blue-700 mb-6">
+      <p className="text-xl md:text-2xl font-bold text-blue-700 mb-6">
         <NavLink to="/">Job Application Tracker</NavLink>
       </p>
 
       {/* Main Heading */}
       <div className="text-center">
-        <p className="text-2xl md:text-4xl font-semibold mb-2">
+        <p className="text-2xl md:text-3xl font-semibold mb-2">
           Stay on top of your job search with smart tracking and effortless
           organization.
         </p>
@@ -70,7 +70,7 @@ const Home = () => {
       </div>
 
       {/* Register Button */}
-      <div className="mt-10 md:mt-12 pb-6">
+      <div className="mt-10 md:mt-12">
         <NavLink to="/register">
           <button className="border border-gray-200 text-blue-600 hover:bg-blue-500 hover:text-white transition px-8 py-3 rounded-full text-lg font-semibold shadow-md shadow-blue-100">
             Register – it’s 100% free!

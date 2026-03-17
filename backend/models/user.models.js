@@ -48,11 +48,9 @@ const userSchema = new mongoose.Schema(
     avatar: {
       public_id: {
         type: String,
-        default: process.env.DEFAULT_AVATAR_PUBLIC_ID,
       },
       url: {
         type: String,
-        default: process.env.DEFAULT_AVATAR_URL,
       },
     },
 
@@ -74,7 +72,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Generate access token
@@ -88,7 +86,7 @@ userSchema.methods.generateAccessToken = function () {
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 
@@ -101,7 +99,7 @@ userSchema.methods.generateRefreshToken = function () {
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    }
+    },
   );
 };
 

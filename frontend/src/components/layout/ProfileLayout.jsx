@@ -3,7 +3,7 @@ import ProfileSidebar from "../profile/ProfileSidebar";
 
 const ProfileLayout = () => {
   return (
-    <div className="flex flex-col p-4 sm:p-0 lg:flex-row min-h-screen bg-gray-50">
+    <div className="flex flex-col py-2 sm:p-0 lg:flex-row">
       
       {/* Sidebar */}
       <ProfileSidebar />
