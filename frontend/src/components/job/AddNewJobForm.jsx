@@ -30,7 +30,7 @@ const AddNewJobForm = () => {
     setFormData((prev) => {
       const updatedData = { ...prev, [name]: value };
 
-      // Auto clear opposite field
+     
       if (name === "applyMethod") {
         if (value === "email") {
           updatedData.jobLink = "";
@@ -237,7 +237,7 @@ const AddNewJobForm = () => {
                   <option value="interview">Interview</option>
                   <option value="rejected">Rejected</option>
                   <option value="offer">Offer</option>
-                  <option value="save_later">Save Later</option>
+                  <option value="no_response">No Response</option>
                 </select>
               </div>
 
