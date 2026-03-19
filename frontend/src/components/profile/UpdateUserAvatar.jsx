@@ -62,7 +62,7 @@ const UpdateUserAvatar = () => {
         fileInputRef.current.value = "";
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       showErrorToast(
         error.response?.data?.message || "Failed to update avatar",
       );

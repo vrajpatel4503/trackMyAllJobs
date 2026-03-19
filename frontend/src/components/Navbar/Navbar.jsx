@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const { isLoggedIn, fullName, avatar } = useSelector((state) => state.auth);
 
-  console.log("Redux Avatar:", avatar);
+
 
   const initials = getInitials(fullName);
 
