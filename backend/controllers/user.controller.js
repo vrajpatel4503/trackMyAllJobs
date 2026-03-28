@@ -102,7 +102,7 @@ export const userLoginController = async (req, res) => {
       .lean();
 
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         success: false,
         message: "User not found.",
       });
@@ -147,9 +147,9 @@ export const userLoginController = async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: isProduction, // true only on production (Vercel)
-      sameSite: isProduction ? "none" : "lax", // none for cross-origin in production, lax locally
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     };
 
     return res
@@ -574,6 +574,70 @@ export const userLastLoginController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching last login",
+    });
+  }
+};
+
+// ------ Controller :- demo account Login ------
+export const demoAccountLoginController = async (req, res) => {
+  try {
+    const user = await userModel
+      .findOne({ email: "demo@trackmyalljobs.com" })
+      .select("-password -refreshToken");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Demo user not found.",
+      });
+    }
+
+    const { accessToken, refreshToken } =
+      await generateRefreshTokenAndAccessToken(user._id);
+
+    if (!accessToken || !refreshToken) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to generate tokens",
+      });
+    }
+
+    await userModel.findByIdAndUpdate(
+      user._id,
+      {
+        $set: {
+          isOnline: true,
+        },
+      },
+      { new: true },
+    );
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const options = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    
+
+    return res
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .status(200)
+      .json({
+        success: true,
+        message: `Welcome back ${user.fullName}`,
+        user,
+      });
+
+    // try part end
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while login with demo account",
     });
   }
 };

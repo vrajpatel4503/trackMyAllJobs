@@ -8,14 +8,16 @@ const authSlice = createSlice({
     userId: null,
     fullName: null,
     avatar: null,
+    isDemo: false
   },
   reducers: {
     login(state, action) {
       state.isLoggedIn = true;
       state.fullName = action.payload.fullName;
       state.avatar = action.payload.avatar;
-      state.userId = action.payload.id;
-      state.role = action.payload.role;
+      state.userId = action.payload._id;
+      state.role = action.payload.role
+      state.isDemo = action.payload.isDemo || false;
     },
 
     logout(state) {
@@ -24,6 +26,7 @@ const authSlice = createSlice({
       state.avatar = null;
       state.role = null;
       state.userId = null;
+      state.isDemo = false
     },
 
     updateAvatar(state, action) {

@@ -4,10 +4,14 @@ import Loader from "../common/Loader.jsx";
 import { showErrorToast, showSuccessToast } from "../../utils/ToastUtils.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import Button from "../common/Button.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 
 const ViewJobDetails = () => {
+  const { isLoggedIn, isDemo } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const { jobId } = useParams();
 
@@ -40,8 +44,21 @@ const ViewJobDetails = () => {
     fetchJobDetails();
   }, [jobId]);
 
+  const handleEditJobSubmit = () => {
+    if (isDemo) {
+      showErrorToast("Editing jobs is not allowed in the demo account");
+    } else {
+      navigate(`/dashboard/edit/job/${job._id}`);
+    }
+  };
+
   // handle delete submit
   const handleDeleteSubmit = async () => {
+    if (isDemo) {
+      showErrorToast("Deleting jobs is not allowed in the demo account");
+      return;
+    }
+
     try {
       const res = await axios.delete(
         `${API_URL}/api/v1/job/delete/job/${jobId}`,
@@ -55,7 +72,7 @@ const ViewJobDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   // Format text
   const formatText = (text) => {
@@ -179,19 +196,33 @@ const ViewJobDetails = () => {
 
         {/* Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-          <button
-            className="px-6 py-2 rounded-lg border border-blue-600 bg-blue-100 text-blue-600 hover:bg-blue-500 hover:text-white transition"
-            onClick={() => navigate(`/dashboard/edit/job/${job._id}`)}
-          >
-            Edit Job
-          </button>
+          {isLoggedIn && (
+            <Button
+              onClick={handleEditJobSubmit}
+              className={`h-11 px-6 sm:w-35 transition rounded-lg
+                 ${
+                   isDemo
+                     ? "bg-gray-400 cursor-not-allowed"
+                     : "bg-blue-600 hover:bg-blue-700 text-white"
+                 }`}
+            >
+              Edit Job
+            </Button>
+          )}
 
-          <button
-            className="px-6 py-2 rounded-lg border border-red-600 bg-red-100 text-red-600 hover:bg-red-500 hover:text-white transition"
-            onClick={handleDeleteSubmit}
-          >
-            Delete Job
-          </button>
+          {isLoggedIn && (
+            <Button
+              onClick={handleDeleteSubmit}
+              className={`h-11 px-6 sm:w-35 transition rounded-lg
+                 ${
+                   isDemo
+                     ? "bg-gray-400 cursor-not-allowed"
+                     : "bg-blue-600 hover:bg-blue-700 text-white"
+                 }`}
+            >
+              Delete Job
+            </Button>
+          )}
         </div>
       </div>
     </div>

@@ -63,7 +63,41 @@ const Login = () => {
         navigate("/dashboard");
       }, 1500);
     } catch (error) {
-      showErrorToast(error.response?.data?.message || "Login failed");
+      showErrorToast(error.response?.data?.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // handle Demo Login
+  const handleDemoLogin = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${API_URL}/api/v1/user/demo/login`,
+        {},
+        { withCredentials: true },
+      );
+
+     
+
+      dispatch(
+        authActions.login({
+          id: res.data.user._id,
+          role: res.data?.user?.role,
+          fullName: res.data?.user?.fullName,
+          avatar: res.data?.user?.avatar?.url || null,
+          isDemo: res.data?.user?.isDemo || false
+        }),
+      );
+
+      showSuccessToast(res.data.message || "Login successful");
+
+      navigate("/dashboard");
+
+      // try part end
+    } catch (error) {
+      showErrorToast(error.response?.data?.message || "Demo login failed.");
     } finally {
       setLoading(false);
     }
@@ -77,7 +111,6 @@ const Login = () => {
         </div>
       )}
 
-      
       <div className="flex items-center justify-center w-full px-4 py-48 sm:py-16">
         <div
           className={`w-full max-w-md bg-white rounded-2xl shadow-lg shadow-blue-100 p-6 sm:p-8 ${
@@ -124,10 +157,23 @@ const Login = () => {
 
             <Button
               type="submit"
-              className="w-full py-2 text-lg font-semibold rounded-md bg-blue-200 text-white hover:bg-blue-700 transition"
+              className="w-full py-2 text-lg font-semibold rounded-md bg-blue-400 text-white hover:bg-blue-700 transition"
             >
               Login
             </Button>
+            <div className="flex items-center gap-2">
+              <hr className="flex-1 border-gray-300" />
+              <span className="text-sm text-gray-500">OR</span>
+              <hr className="flex-1 border-gray-300" />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              className="w-full py-2 text-lg font-semibold rounded-md bg-green-500 text-white hover:bg-green-600 transition"
+            >
+              Use Demo Account
+            </button>
 
             <p className="text-center text-sm text-gray-600">
               Don’t have an account?{" "}

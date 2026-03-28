@@ -2,12 +2,14 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import Loader from "../common/Loader.jsx";
 import { showErrorToast, showSuccessToast } from "../../utils/ToastUtils.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authSlice.js";
 import Button from "../common/Button.jsx";
 
 const UpdateUserAvatar = () => {
   const dispatch = useDispatch();
+
+  const { isLoggedIn, isDemo } = useSelector((state) => state.auth);
 
   const [userAvatar, setUserAvatar] = useState({ avatar: null });
   const [loading, setLoading] = useState(false);
@@ -16,7 +18,13 @@ const UpdateUserAvatar = () => {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Handle file selection
   const handleFileChange = (e) => {
+    if (isDemo) {
+      showErrorToast("Uploading avatar is disabled in demo mode");
+      return;
+    }
+
     const { files } = e.target;
     if (!files || !files[0]) return;
 
@@ -27,14 +35,19 @@ const UpdateUserAvatar = () => {
       setUserAvatar({ avatar: null });
 
       if (fileInputRef.current) fileInputRef.current.value = "";
-
       return;
     }
 
     setUserAvatar({ avatar: file });
   };
 
+  // Handle submit
   const handleSubmit = async () => {
+    if (isDemo) {
+      showErrorToast("Updating avatar is not allowed in demo mode");
+      return;
+    }
+
     if (!userAvatar.avatar) {
       showErrorToast("Please select an avatar first");
       return;
@@ -62,7 +75,6 @@ const UpdateUserAvatar = () => {
         fileInputRef.current.value = "";
       }
     } catch (error) {
-      // console.log(error);
       showErrorToast(
         error.response?.data?.message || "Failed to update avatar",
       );
@@ -79,6 +91,7 @@ const UpdateUserAvatar = () => {
 
   return (
     <>
+      {/* Loader */}
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-50">
           <Loader />
@@ -98,10 +111,20 @@ const UpdateUserAvatar = () => {
           className="hidden"
         />
 
-        {/* Avatar */}
+        {/* Avatar Upload Box */}
         <div
-          onClick={() => fileInputRef.current.click()}
-          className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-gray-300 cursor-pointer flex items-center justify-center hover:border-blue-500 transition"
+          onClick={() => {
+            if (isDemo) {
+              showErrorToast("Uploading avatar is not allowed in demo mode");
+              return;
+            }
+            fileInputRef.current.click();
+          }}
+          className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed flex items-center justify-center transition ${
+            isDemo
+              ? "cursor-not-allowed opacity-50 border-gray-300"
+              : "cursor-pointer hover:border-blue-500 border-gray-300"
+          }`}
         >
           {userAvatar.avatar ? (
             <img
@@ -120,12 +143,19 @@ const UpdateUserAvatar = () => {
           Upload image under <span className="font-medium">200KB</span>
         </p>
 
-        <Button
-          onClick={(e) => handleSubmit(e)}
-          className="mt-5 h-11 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Update Avatar
-        </Button>
+        {/* Update Button */}
+        {isLoggedIn && (
+          <Button
+            onClick={handleSubmit}
+            className={`mt-5 h-11 px-6 rounded-lg transition ${
+              isDemo
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
+          >
+            Update Avatar
+          </Button>
+        )}
       </div>
     </>
   );

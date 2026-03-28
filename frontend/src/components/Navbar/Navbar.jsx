@@ -6,6 +6,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import LogoutButton from "../profile/LogoutButton";
+import { showErrorToast } from "../../utils/ToastUtils.jsx";
 
 const getInitials = (fullName) => {
   if (!fullName || typeof fullName !== "string") return "";
@@ -24,9 +25,9 @@ const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { isLoggedIn, fullName, avatar } = useSelector((state) => state.auth);
-
-
+  const { isLoggedIn, fullName, avatar, isDemo } = useSelector(
+    (state) => state.auth,
+  );
 
   const initials = getInitials(fullName);
 
@@ -34,6 +35,16 @@ const Navbar = () => {
     navigate(path);
     setProfileOpen(false);
     setMobileMenuOpen(false);
+  };
+
+  // ---- Handle restricted navigation -----
+  const handleDemoRestricted = (path) => {
+    if (isDemo) {
+      showErrorToast("Add new job is not allowed in demo mode");
+
+      return;
+    }
+    handleNavigate(path);
   };
 
   return (
@@ -67,15 +78,19 @@ const Navbar = () => {
           {isLoggedIn && (
             <div className="flex items-center gap-8">
               <button
-                onClick={() => navigate("/dashboard/all/jobs")}
+                onClick={() => handleNavigate("/dashboard/all/jobs")}
                 className="font-medium text-lg text-gray-700 hover:text-blue-600"
               >
                 All Jobs
               </button>
 
               <button
-                onClick={() => navigate("/dashboard/add/job")}
-                className="font-medium text-lg text-gray-700 hover:text-blue-600"
+                onClick={() => handleDemoRestricted("/dashboard/add/job")}
+                className={`font-medium text-lg ${
+                  isDemo
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:text-blue-600"
+                }`}
               >
                 Add New Job
               </button>
@@ -102,17 +117,21 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center gap-6 relative">
               {/* Notification */}
-              <button className="p-2 disabled:cursor-not-allowed rounded-full bg-white border hover:bg-gray-100">
+              {/* <button
+                disabled={isDemo}
+                className={`p-2 rounded-full border ${
+                  isDemo ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"
+                }`}
+              >
                 <FiBell size={18} />
-              </button>
+              </button> */}
 
               {/* Profile */}
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-all duration-200"
+                  className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-gray-200 hover:bg-gray-300"
                 >
-                  {/* Avatar */}
                   <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center overflow-hidden text-sm font-semibold shadow-sm">
                     {avatar ? (
                       <img
@@ -124,14 +143,11 @@ const Navbar = () => {
                       initials || "U"
                     )}
                   </div>
-
-                  {/* Name / Initials */}
                   <span className="text-sm font-medium text-gray-700 hidden sm:block">
                     {initials}
                   </span>
-
                   {/* Dropdown icon */}
-                  <span className="text-gray-500 text-xs">▼</span>
+                  <span className="text-gray-500 text-xs">▼</span>{" "}
                 </button>
 
                 {profileOpen && (
@@ -173,7 +189,7 @@ const Navbar = () => {
 
         {/* ================= MOBILE MENU ================= */}
         {mobileMenuOpen && (
-          <div className="sm:hidden absolute top-16 right-3 w-60 bg-white rounded-xl shadow-xl border border-gray-200 z-50 p-4 space-y-3">
+          <div className="sm:hidden absolute top-16 right-3 w-60 bg-white rounded-xl shadow-xl border z-50 p-4 space-y-3">
             {!isLoggedIn ? (
               <>
                 <Button
@@ -200,8 +216,12 @@ const Navbar = () => {
                 </button>
 
                 <button
-                  onClick={() => handleNavigate("/dashboard/add/job")}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  onClick={() => handleDemoRestricted("/dashboard/add/job")}
+                  className={`w-full text-left px-3 py-2 rounded ${
+                    isDemo
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-gray-100"
+                  }`}
                 >
                   Add New Job
                 </button>

@@ -12,14 +12,16 @@ import {
   updateStatusController,
 } from "../controllers/job.controller.js";
 import { verifyUser } from "../middleware/auth.middleware.js";
+import { demoUserBlockMiddleware } from "../middleware/demoBlocker.middleware.js";
 
 const router = express.Router();
 
+
 // ---- Router :-  add new job -----
-router.post("/add/new/job", verifyUser, jobFieldValidator, addNewJobController);
+router.post("/add/new/job", verifyUser, demoUserBlockMiddleware, jobFieldValidator, addNewJobController);
 
 // ---- Router :-  update job -----
-router.patch("/update/job/:jobId", verifyUser, updateJobDetailsController);
+router.patch("/update/job/:jobId", verifyUser, demoUserBlockMiddleware, updateJobDetailsController);
 
 // ---- Router :-  get single job with jobId -----
 router.get("/get/job/:jobId", verifyUser, getSingleJobController);
@@ -28,20 +30,20 @@ router.get("/get/job/:jobId", verifyUser, getSingleJobController);
 router.get("/get/all/jobs", verifyUser, getAllJobsController);
 
 // ---- Router :-  update status -----
-router.patch("/update/status/:jobId", verifyUser, updateStatusController);
+router.patch("/update/status/:jobId", verifyUser, demoUserBlockMiddleware, updateStatusController);
 
 // ---- Router :-  delete job -----
-router.delete("/delete/job/:jobId", verifyUser, deletejobController);
+router.delete("/delete/job/:jobId", verifyUser, demoUserBlockMiddleware, deletejobController);
 
 // ---- Router :- filter josb -----
-router.get("/filter", verifyUser, filterJobsController);
+router.get("/jobs/filter", verifyUser, filterJobsController);
 
 // ---- Router :-  job statistics -----
-router.get("/jobs/statistics", verifyUser, getJobsStatistics);
+router.get("/jobs/stats", verifyUser, getJobsStatistics);
 
 // ---- Router :-  Apply method statistics -----
 router.get(
-  "/applymethod/statistics",
+  "/jobs/apply-method-stats",
   verifyUser,
   getApplyMethodStatistics,
 );

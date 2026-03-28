@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "../common/Loader";
 import { showErrorToast, showSuccessToast } from "../../utils/ToastUtils";
 import Button from "../common/Button.jsx";
+import { useSelector } from "react-redux";
 
 const UpdateEmail = () => {
   const [email, setEmail] = useState("");
@@ -10,11 +11,18 @@ const UpdateEmail = () => {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const { isLoggedIn, isDemo } = useSelector((state) => state.auth);
+
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handleEmailSubmit = async () => {
+    if (isDemo) {
+      showErrorToast("Updating email is not allowed in demo mode");
+      return;
+    }
+
     if (!email) {
       showErrorToast("Please enter a valid email");
       return;
@@ -55,15 +63,28 @@ const UpdateEmail = () => {
             value={email}
             onChange={handleChange}
             placeholder="Enter new email"
-            className="flex-1 h-11 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isDemo}
+            className={`flex-1 h-11 px-4 py-3 border rounded-lg 
+            ${
+              isDemo
+                ? "bg-gray-100 cursor-not-allowed text-gray-500"
+                : "focus:outline-none"
+            }`}
           />
 
-          <Button
-            onClick={handleEmailSubmit}
-            className="h-11 px-6 sm:w-35 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Update
-          </Button>
+          {isLoggedIn && (
+            <Button
+              onClick={handleEmailSubmit}
+              className={`h-11 px-6 sm:w-35 transition rounded-lg
+                 ${
+                   isDemo
+                     ? "bg-gray-400 cursor-not-allowed"
+                     : "bg-blue-600 hover:bg-blue-700 text-white"
+                 }`}
+            >
+              Update
+            </Button>
+          )}
         </div>
       </div>
     </>

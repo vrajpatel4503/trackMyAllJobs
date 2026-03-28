@@ -29,13 +29,17 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      index: true,
     },
 
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+
+    isDemo: {
+      type: Boolean,
+      default: false
     },
 
     jobs: [
