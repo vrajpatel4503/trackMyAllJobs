@@ -384,11 +384,11 @@ export const filterJobsController = async (req, res) => {
   }
 };
 
-// ---------- Controller :-  get Jobs Statistics ----------
+// ---------- Controller :-  get Jobs Statistics for box ----------
 
 export const getJobsStatistics = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user;
 
     const totalJobs = await jobModel.countDocuments({ user: userId });
 
@@ -439,6 +439,9 @@ export const getJobsStatistics = async (req, res) => {
 export const getApplyMethodStatistics = async (req, res) => {
   try {
     const applyMethodStatistics = await jobModel.aggregate([
+      {
+        $match: { user: req.user.id },
+      },
       {
         $group: {
           _id: "$applyMethod",

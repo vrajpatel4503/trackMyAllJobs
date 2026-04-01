@@ -5,7 +5,7 @@ const Button = ({ children, onClick, type = "button", className = "" }) => {
     <button
       type={type}
       onClick={onClick}
-      className={` rounded-md ${className}`}
+      className={`${className}`}
     >
       {children}
     </button>

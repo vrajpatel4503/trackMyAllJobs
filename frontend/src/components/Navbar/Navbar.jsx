@@ -65,11 +65,11 @@ const Navbar = () => {
 
       <div className="bg-white shadow-md shadow-blue-100 relative z-50">
         {/* ================= DESKTOP NAVBAR ================= */}
-        <div className="hidden sm:flex items-center justify-between py-3 px-6">
+        <div className="hidden sm:flex items-center justify-between py-2.5 px-3 md:px-5">
           {/* Logo */}
           <h1
             onClick={() => navigate(isLoggedIn ? "/dashboard" : "/")}
-            className="text-2xl font-bold tracking-wide text-gray-800 cursor-pointer"
+            className="text-xl md:text-2xl font-bold  text-gray-800 cursor-pointer"
           >
             TrackMyAllJobs
           </h1>
@@ -77,23 +77,30 @@ const Navbar = () => {
           {/* Center Menu */}
           {isLoggedIn && (
             <div className="flex items-center gap-8">
-              <button
+              <Button
+                onClick={() => handleNavigate("/dashboard")}
+                className="font-medium text-md md:text-lg text-gray-700 hover:text-blue-600"
+              >
+                Dashboard
+              </Button>
+
+              <Button
                 onClick={() => handleNavigate("/dashboard/all/jobs")}
-                className="font-medium text-lg text-gray-700 hover:text-blue-600"
+                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600"
               >
                 All Jobs
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={() => handleDemoRestricted("/dashboard/add/job")}
-                className={`font-medium text-lg ${
+                className={`font-medium text-md md:text-lg ${
                   isDemo
                     ? "text-gray-400 cursor-not-allowed"
                     : "text-gray-700 hover:text-blue-600"
                 }`}
               >
                 Add New Job
-              </button>
+              </Button>
             </div>
           )}
 
@@ -128,9 +135,9 @@ const Navbar = () => {
 
               {/* Profile */}
               <div className="relative">
-                <button
+                <Button
                   onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-gray-200 hover:bg-gray-300"
+                  className="flex items-center gap-2 px-1 md:px-1.5 py-1 rounded-full bg-gray-200 hover:bg-gray-300"
                 >
                   <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center overflow-hidden text-sm font-semibold shadow-sm">
                     {avatar ? (
@@ -148,16 +155,16 @@ const Navbar = () => {
                   </span>
                   {/* Dropdown icon */}
                   <span className="text-gray-500 text-xs">▼</span>{" "}
-                </button>
+                </Button>
 
                 {profileOpen && (
                   <div className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border z-50 overflow-hidden">
-                    <button
+                    <Button
                       onClick={() => handleNavigate("/profile")}
                       className="w-full text-left px-4 py-3 hover:bg-gray-100"
                     >
                       My Profile
-                    </button>
+                    </Button>
 
                     <div className="border-t" />
 
@@ -208,14 +215,21 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <button
+                <Button
+                  onClick={() => handleNavigate("/dashboard")}
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                >
+                  Dashboard
+                </Button>
+
+                <Button
                   onClick={() => handleNavigate("/dashboard/all/jobs")}
                   className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
                 >
                   All Jobs
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => handleDemoRestricted("/dashboard/add/job")}
                   className={`w-full text-left px-3 py-2 rounded ${
                     isDemo
@@ -224,14 +238,14 @@ const Navbar = () => {
                   }`}
                 >
                   Add New Job
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => handleNavigate("/profile")}
                   className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
                 >
                   My Profile
-                </button>
+                </Button>
 
                 <div className="border-t pt-2">
                   <LogoutButton />

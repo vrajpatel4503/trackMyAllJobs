@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "../../components/common/Loader.jsx";
 import { showErrorToast } from "../../utils/ToastUtils.jsx";
 import { useNavigate } from "react-router-dom";
+import JobFilterUI from "../../components/filters/JobFilterUI.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 
@@ -55,6 +56,8 @@ const AllJobsPage = () => {
 
       <div className="px-6 py-8">
         <h2 className="text-2xl font-bold mb-6">All Job Applications</h2>
+
+        <JobFilterUI setJobs={setJobs} />
 
         {/* If No Jobs found */}
         {jobs.length === 0 ? (

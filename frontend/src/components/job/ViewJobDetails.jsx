@@ -217,7 +217,7 @@ const ViewJobDetails = () => {
                  ${
                    isDemo
                      ? "bg-gray-400 cursor-not-allowed"
-                     : "bg-blue-600 hover:bg-blue-700 text-white"
+                     : "bg-red-400 hover:bg-red-500 text-white"
                  }`}
             >
               Delete Job
