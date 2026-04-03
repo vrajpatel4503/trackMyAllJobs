@@ -468,3 +468,94 @@ export const getApplyMethodStatistics = async (req, res) => {
     });
   }
 };
+
+// ---------- Controller :-  get job stats for chart  ----------
+
+export const getJobStatsForChart = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const stats = await jobModel.aggregate([
+      {
+        $match: { user: userId },
+      },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const result = {
+      applied: 0,
+      interview: 0,
+      offer: 0,
+      rejected: 0,
+      no_response: 0,
+    };
+
+    stats.forEach((item) => {
+      result[item._id] = item.count;
+    });
+
+    res.status(200).json({
+      success: true,
+      stats: result,
+    });
+
+    // try part end
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error in fetching statistics",
+    });
+  }
+};
+
+// ---------- Controller :-  get monthly job status  ----------
+
+export const getMonthlyJobStats = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const stats = await jobModel.aggregate([
+      {
+        $match: { user: userId },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$appliedDate" },
+            month: { $month: "$appliedDate" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 },
+      },
+    ]);
+
+    const months = [
+      "Jan","Feb","Mar","Apr","May","Jun",
+      "Jul","Aug","Sep","Oct","Nov","Dec"
+    ];
+
+    const result = stats.map((item) => ({
+      month: `${months[item._id.month - 1]} ${item._id.year}`,
+      count: item.count,
+    }));
+
+    res.status(200).json({
+      success: true,
+      stats: result,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error in fetching monthly stats",
+    });
+  }
+};

@@ -101,6 +101,13 @@ const Navbar = () => {
               >
                 Add New Job
               </Button>
+
+              <Button
+                onClick={() => handleNavigate("/dashboard/analytics")}
+                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600"
+              >
+                Analytics
+              </Button>
             </div>
           )}
 

@@ -8,6 +8,7 @@ import {
   getApplyMethodStatistics,
   getJobsStatistics,
   getJobStatsForChart,
+  getMonthlyJobStats,
   getSingleJobController,
   updateJobDetailsController,
   updateStatusController,
@@ -65,6 +66,10 @@ router.get("/stats", verifyUser, getJobsStatistics);
 // ---- Router :-  Apply method statistics -----
 router.get("/jobs/apply-method-stats", verifyUser, getApplyMethodStatistics);
 
+// ---- Router :-  get job stats for chart -----
+router.get("/job-stats-chart", verifyUser, getJobStatsForChart);
 
+// ---- Router :-  get monthly job status -----
+router.get("/monthly-job-stats", verifyUser, getMonthlyJobStats);
 
 export default router;

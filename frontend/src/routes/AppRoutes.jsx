@@ -21,6 +21,7 @@ import ViewJobDetails from "../components/job/ViewJobDetails.jsx";
 import EditJobForm from "../components/job/EditJobForm.jsx";
 import HomeRedirect from "./HomeRedirect.jsx";
 import AllJobsPage from "../pages/job/AllJobsPage.jsx";
+import Analytics from "../pages/Analytics.jsx";
 
 const AppRoutes = () => {
   // --------- react router dom -----------
@@ -61,6 +62,10 @@ const AppRoutes = () => {
 
             {/* --- All Job Page --- */}
             <Route path="/dashboard/all/jobs" element={<AllJobsPage />} />
+
+
+            {/* --- Analytics Page --- */}
+            <Route path="/dashboard/analytics" element={<Analytics />} />
           </Route>
         </Route>
       </>,
