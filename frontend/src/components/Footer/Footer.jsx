@@ -4,7 +4,7 @@ import { IoMdMail } from "react-icons/io";
 
 const Footer = () => {
   return (
-    <footer className="w-full border-t py-4 text-center bg-white">
+    <footer className="w-full border-t py-2 text-center bg-white">
       
       {/* <p className="text-lg md:text-2xl font-semibold mb-2">
         Made By Vraj Patel

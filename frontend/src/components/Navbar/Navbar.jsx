@@ -65,7 +65,7 @@ const Navbar = () => {
 
       <div className="bg-white shadow-md shadow-blue-100 relative z-50">
         {/* ================= DESKTOP NAVBAR ================= */}
-        <div className="hidden sm:flex items-center justify-between py-2.5 px-3 md:px-5">
+        <div className="hidden  sm:flex items-center justify-between py-2.5 px-3 md:px-5">
           {/* Logo */}
           <h1
             onClick={() => navigate(isLoggedIn ? "/dashboard" : "/")}
@@ -79,14 +79,14 @@ const Navbar = () => {
             <div className="flex items-center gap-8">
               <Button
                 onClick={() => handleNavigate("/dashboard")}
-                className="font-medium text-md md:text-lg text-gray-700 hover:text-blue-600"
+                className="font-medium text-md md:text-lg text-gray-700 hover:text-blue-600 cursor-pointer"
               >
                 Dashboard
               </Button>
 
               <Button
                 onClick={() => handleNavigate("/dashboard/all/jobs")}
-                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600"
+                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600 cursor-pointer"
               >
                 All Jobs
               </Button>
@@ -96,7 +96,7 @@ const Navbar = () => {
                 className={`font-medium text-md md:text-lg ${
                   isDemo
                     ? "text-gray-400 cursor-not-allowed"
-                    : "text-gray-700 hover:text-blue-600"
+                    : "text-gray-700 hover:text-blue-600 cursor-pointer"
                 }`}
               >
                 Add New Job
@@ -104,7 +104,7 @@ const Navbar = () => {
 
               <Button
                 onClick={() => handleNavigate("/dashboard/analytics")}
-                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600"
+                className="font-medium text-md md:text-lg  text-gray-700 hover:text-blue-600 cursor-pointer"
               >
                 Analytics
               </Button>
@@ -116,14 +116,14 @@ const Navbar = () => {
             <div className="flex items-center gap-3">
               <Button
                 onClick={() => navigate("/login")}
-                className="border py-2 px-4 border-blue-600 text-blue-600 hover:bg-blue-50"
+                className="border py-2 px-4 border-blue-600 text-blue-600 hover:bg-blue-50 rounded-sm"
               >
                 Login
               </Button>
 
               <Button
                 onClick={() => navigate("/register")}
-                className="bg-blue-600 py-2 px-4 text-white hover:bg-blue-700"
+                className="bg-blue-600 py-2 px-4 text-white hover:bg-blue-700 rounded-sm"
               >
                 Register
               </Button>
@@ -144,7 +144,7 @@ const Navbar = () => {
               <div className="relative">
                 <Button
                   onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-1 md:px-1.5 py-1 rounded-full bg-gray-200 hover:bg-gray-300"
+                  className="flex items-center gap-2 px-1 md:px-1.5 py-1 rounded-full bg-blue-200 hover:bg-blue-200 cursor-pointer"
                 >
                   <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center overflow-hidden text-sm font-semibold shadow-sm">
                     {avatar ? (
@@ -168,7 +168,7 @@ const Navbar = () => {
                   <div className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border z-50 overflow-hidden">
                     <Button
                       onClick={() => handleNavigate("/profile")}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-3"
                     >
                       My Profile
                     </Button>
@@ -208,14 +208,14 @@ const Navbar = () => {
               <>
                 <Button
                   onClick={() => handleNavigate("/login")}
-                  className="w-full py-2 border border-blue-600 text-blue-600"
+                  className="w-full py-2 border border-blue-600 text-blue-600 rounded-sm"
                 >
                   Login
                 </Button>
 
                 <Button
                   onClick={() => handleNavigate("/register")}
-                  className="w-full py-2 bg-blue-600 text-white"
+                  className="w-full py-2 bg-blue-600 text-white rounded-sm"
                 >
                   Register
                 </Button>

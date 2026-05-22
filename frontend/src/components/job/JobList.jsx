@@ -53,7 +53,7 @@ const JobList = () => {
         </div>
       )}
 
-      <div className="px-6 py-8">
+      <div>
         <h2 className="text-2xl font-bold mb-6">My Job Applications</h2>
 
         {/* If No Jobs found */}
@@ -82,7 +82,7 @@ const JobList = () => {
 
               {/* Table Body */}
               <tbody className="divide-y">
-                {jobs.slice(0, 4).map((job) => (
+                {jobs.slice(0, 5).map((job) => (
                   <tr
                     key={job._id}
                     className="hover:bg-blue-50 transition duration-200"

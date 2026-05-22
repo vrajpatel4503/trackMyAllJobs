@@ -57,61 +57,67 @@ const JobStatusStatistics = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-      <div className="bg-gray-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-gray-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-gray-600">
-          Total Jobs
-        </p>
-        <h2 className="text-2xl font-bold text-gray-800">
-          {stats.totalJobs || 0}
-        </h2>
-      </div>
+    <>
+      <div>
+        <h2 className="text-2xl font-bold mb-6">Application Overview</h2>
 
-      <div className="bg-blue-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-blue-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-blue-600">
-          Applied
-        </p>
-        <h2 className="text-2xl font-bold text-blue-700">
-          {stats.totalAppliedJobs || 0}
-        </h2>
-      </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="bg-gray-100 shadow rounded-lg p-4 text-center shadow-gray-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-gray-600">
+              Total Jobs
+            </p>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {stats.totalJobs || 0}
+            </h2>
+          </div>
 
-      <div className="bg-amber-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-amber-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-amber-600">
-          Interview
-        </p>
-        <h2 className="text-2xl font-bold text-amber-700">
-          {stats.totalInterviews || 0}
-        </h2>
-      </div>
+          <div className="bg-blue-100 shadow rounded-lg p-4 text-center shadow-blue-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-blue-600">
+              Applied
+            </p>
+            <h2 className="text-2xl font-bold text-blue-700">
+              {stats.totalAppliedJobs || 0}
+            </h2>
+          </div>
 
-      <div className="bg-green-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-green-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-green-600">
-          Offer
-        </p>
-        <h2 className="text-2xl font-bold text-green-700">
-          {stats.totalOffer || 0}
-        </h2>
-      </div>
+          <div className="bg-amber-100 shadow rounded-lg p-4 text-center shadow-amber-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-amber-600">
+              Interview
+            </p>
+            <h2 className="text-2xl font-bold text-amber-700">
+              {stats.totalInterviews || 0}
+            </h2>
+          </div>
 
-      <div className="bg-red-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-red-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-red-600">
-          Rejected
-        </p>
-        <h2 className="text-2xl font-bold text-red-700">
-          {stats.totalRejected || 0}
-        </h2>
-      </div>
+          <div className="bg-green-100 shadow rounded-lg p-4 text-center shadow-green-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-green-600">
+              Offer
+            </p>
+            <h2 className="text-2xl font-bold text-green-700">
+              {stats.totalOffer || 0}
+            </h2>
+          </div>
 
-      <div className="bg-slate-100 shadow rounded-lg p-4 border text-center hover:shadow-lg shadow-slate-100 transition">
-        <p className="text-sm sm:text-base font-semibold text-slate-600">
-          No Response
-        </p>
-        <h2 className="text-2xl font-bold text-slate-700">
-          {stats.totalNoResponse || 0}
-        </h2>
+          <div className="bg-red-100 shadow rounded-lg p-4 text-center shadow-red-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-red-600">
+              Rejected
+            </p>
+            <h2 className="text-2xl font-bold text-red-700">
+              {stats.totalRejected || 0}
+            </h2>
+          </div>
+
+          <div className="bg-slate-100 shadow rounded-lg p-4 text-center shadow-slate-100 transition">
+            <p className="text-sm sm:text-base font-semibold text-slate-600">
+              No Response
+            </p>
+            <h2 className="text-2xl font-bold text-slate-700">
+              {stats.totalNoResponse || 0}
+            </h2>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

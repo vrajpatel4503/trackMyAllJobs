@@ -112,8 +112,8 @@ const EditJobForm = () => {
           <Loader />
         </div>
       ) : (
-        <div className="w-full px-4 sm:px-6 lg:px-8 pt-8 pb-12">
-          <div className="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-md shadow-blue-100 border">
+        <div className="w-full px-4 sm:px-6 lg:px-8 pb-12 pt-4 sm:pt-4">
+          <div className="max-w-3xl mx-auto bg-white p-6 sm:p-6 rounded-xl shadow-md shadow-blue-100 border">
             <h2 className="text-xl sm:text-2xl font-bold text-center mb-8">
               Edit Job
             </h2>

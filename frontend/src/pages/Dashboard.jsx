@@ -6,18 +6,19 @@ import JobStatusStatistics from "../components/dashboard/JobStatusStatistics.jsx
 
 const Dashboard = () => {
   return (
-    <>
-      <div className="px-6 py-8 mt-6">
+    <div className="px-4 py-4">
+      <div className="mt-1">
         <JobStatusStatistics />
       </div>
 
-      <Outlet />
+      <div className="mt-6">
+        <Outlet />
+      </div>
 
-      <div className="">
+      <div className="mt-6">
         <JobList />
       </div>
-    </>
+    </div>
   );
 };
-
 export default Dashboard;

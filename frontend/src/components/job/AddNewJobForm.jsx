@@ -76,7 +76,7 @@ const AddNewJobForm = () => {
       <div className="w-full px-4 sm:px-8 pt-6">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 border px-3 py-2 rounded-lg text-gray-700 hover:text-black font-medium transition"
+          className="flex items-center gap-2 border px-2 py-2 rounded-lg text-gray-700 hover:text-black font-medium transition"
         >
           <IoArrowBack className="text-lg" />
           Back
@@ -88,13 +88,13 @@ const AddNewJobForm = () => {
           <Loader />
         </div>
       ) : (
-        <div className="w-full px-4 sm:px-6 lg:px-8 pt-8 pb-12">
-          <div className="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-md shadow-blue-100 border">
+        <div className="w-full px-4 sm:px-6 lg:px-8 pb-12 pt-4 sm:pt-4">
+          <div className="max-w-3xl mx-auto bg-white p-6 sm:p-6 rounded-xl shadow-md shadow-blue-100 border">
             <h2 className="text-xl sm:text-2xl font-bold text-center mb-8">
-              Add New Job
+              Add Job
             </h2>
 
-            <form onSubmit={handleSubmit} className="grid gap-6 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} className="grid gap-5 sm:grid-cols-2">
               {/* Company Name */}
               <div>
                 <label className="block mb-1 font-medium text-gray-700">
